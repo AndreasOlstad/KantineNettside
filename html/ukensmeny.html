@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kantine - Ukens Meny</title>
+    <link rel="stylesheet" href="../css/info.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">Kantine</a>
+        <nav class="navbar">
+            <a href="../index.html">Hjem</a>
+            <a href="./ukensmeny.html" class="active">Ukens Meny</a>
+            <a href="./smaretter.html">Småretter & Snacks</a>
+            <a href="./leggtilvarer.html">Legg til Varer</a>
+            <a href="../index.html#logginn">Logg inn</a>
+        </nav>
+        <div class="bx bx-moon" id="darkMode-icon"></div>
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+
+    <section class="content" id="content">
+        <div class="content-box">
+            <h2 class="heading" style="font-size: 5rem;">Ukens Meny</h2>
+            <div class="wrapper">
+                <!-- Dynamisk innhold fra Firebase vil bli lagt til her -->
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxILJVkgKXOVkL5axzSViHJ_1ee0AOo5M",
+            authDomain: "nettside-kantine.firebaseapp.com",
+            projectId: "nettside-kantine",
+            storageBucket: "nettside-kantine.firebasestorage.app",
+            messagingSenderId: "726592314686",
+            appId: "1:726592314686:web:6a93b0d24319cdd6b8206f",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Hent data fra Firestore
+        const querySnapshot = await getDocs(collection(db, "meny"));
+
+        querySnapshot.forEach((doc) => {
+            const dag = doc.data().dag;
+            const hovedrett = doc.data().hovedrett;
+            const dessert = doc.data().dessert;
+            const drikke = doc.data().drikke;
+            const pris = doc.data().pris;
+
+            let divE = document.createElement("div");
+            divE.classList.add("content-item");
+
+            divE.innerHTML = `
+                <h2>${dag}</h2>
+                <p>Hovedrett: ${hovedrett}</p>
+                <p>Dessert: ${dessert}</p>
+                <p>Drikke: ${drikke}</p>
+                <p>Pris: ${pris} NOK</p>
+            `;
+
+            document.querySelector(".wrapper").appendChild(divE);
+        });
+    </script>
+</body>
+
+</html>

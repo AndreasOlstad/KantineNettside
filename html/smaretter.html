@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kantine - Småretter & Snacks</title>
+    <link rel="stylesheet" href="../css/info.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">Kantine</a>
+        <nav class="navbar">
+            <a href="../index.html">Hjem</a>
+            <a href="./ukensmeny.html">Ukens Meny</a>
+            <a href="./smaretter.html" class="active">Småretter & Snacks</a>
+            <a href="./leggtilvarer.html">Legg til Varer</a>
+            <a href="../index.html#logginn">Logg inn</a>
+        </nav>
+        <div class="bx bx-moon" id="darkMode-icon"></div>
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+
+    <section class="content" id="content">
+        <div class="content-box">
+            <h2 class="heading" style="font-size: 5rem;">Småretter & Snacks</h2>
+            <div class="wrapper">
+                <!-- Dynamisk innhold fra Firebase vil bli lagt til her -->
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        // Importer Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+        // Firebase-konfigurasjon
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxILJVkgKXOVkL5axzSViHJ_1ee0AOo5M",
+            authDomain: "nettside-kantine.firebaseapp.com",
+            projectId: "nettside-kantine",
+            storageBucket: "nettside-kantine.firebasestorage.app",
+            messagingSenderId: "726592314686",
+            appId: "1:726592314686:web:6a93b0d24319cdd6b8206f",
+        };
+
+        // Initialiser Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Hent data fra Firestore
+        const querySnapshot = await getDocs(collection(db, "varer"));
+
+        querySnapshot.forEach((doc) => {
+            // Hent data fra Firestore-dokumentet
+            const varenavn = doc.data().varenavn;
+            const pris = doc.data().pris;
+            const beskrivelse = doc.data().beskrivelse;
+
+            // Opprett container-div
+            let divE = document.createElement("div");
+            divE.classList.add("content-item");
+
+            // Bruk innerHTML for strukturert innhold etter at elementene er opprettet
+            divE.innerHTML = `
+                <h2>${varenavn}</h2>
+                <p>${beskrivelse}</p>
+                <p>Pris: ${pris}</p>
+            `;
+
+            // Legg til div-en i wrapper
+            document.querySelector(".wrapper").appendChild(divE);
+        });
+
+        // Event Listener for å aktivere menyfunksjonene og scroll
+        document.addEventListener("DOMContentLoaded", () => {
+            let sections = document.querySelectorAll("section");
+            let navLinks = document.querySelectorAll("header nav a");
+            let darkModeIcon = document.getElementById("darkMode-icon");
+            let menuIcon = document.getElementById("menu-icon");
+            let navbar = document.querySelector(".navbar");
+
+            window.addEventListener("scroll", () => {
+                let scrollPosition = window.scrollY + 150;
+
+                sections.forEach((section) => {
+                    let sectionTop = section.offsetTop;
+                    let sectionHeight = section.offsetHeight;
+                    let sectionId = section.getAttribute("id");
+
+                    if (
+                        scrollPosition >= sectionTop &&
+                        scrollPosition < sectionTop + sectionHeight
+                    ) {
+                        navLinks.forEach((link) => {
+                            link.classList.remove("active");
+                        });
+
+                        let activeLink = document.querySelector(
+                            `header nav a[href*="${sectionId}"]`
+                        );
+                        if (activeLink) {
+                            activeLink.classList.add("active");
+                        }
+                    }
+                });
+            });
+
+            darkModeIcon.addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+                darkModeIcon.classList.toggle("bx-sun");
+            });
+
+            menuIcon.addEventListener("click", () => {
+                navbar.classList.toggle("active");
+                menuIcon.classList.toggle("bx-x");
+            });
+
+            // Close menu on link click (for mobile)
+            navLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    if (navbar.classList.contains("active")) {
+                        navbar.classList.remove("active");
+                        menuIcon.classList.remove("bx-x");
+                        menuIcon.classList.add("bx-menu");
+                    }
+                });
+            });
+        });
+
+        window.onscroll = () => {
+            let header = document.querySelector(".header");
+            header.classList.toggle("sticky", window.scrollY > 100);
+        };
+    </script>
+</body>
+
+</html>

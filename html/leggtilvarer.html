@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kantine - Legg Til Varer og Meny</title>
+    <link rel="stylesheet" href="../css/leggtilvarer.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap");
+
+        #submitt {
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">Kantine</a>
+        <nav class="navbar">
+            <a href="../index.html">Hjem</a>
+            <a href="./ukensmeny.html">Ukens Meny</a>
+            <a href="./smaretter.html">Småretter & Snacks</a>
+            <a href="./leggtilvarer.html" class="active">Legg til Varer</a>
+            <a href="../index.html#logginn">Logg inn</a>
+        </nav>
+        <div class="bx bx-moon" id="darkMode-icon"></div>
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+
+    <section class="content" id="content">
+        <!-- Skjema for Legg til Varer -->
+        <div class="content-box">
+            <h2 class="heading" style="font-size: 5rem;">Legg til Varer</h2>
+            <p>Bruk dette skjemaet for å legge til nye varer til kantinemenyen.</p>
+            <label for="varenavn">Varenavn:</label>
+            <input type="text" id="varenavn" name="varenavn"><br>
+
+            <label for="pris">Pris:</label>
+            <input type="number" id="pris" name="pris"><br>
+
+            <label for="beskrivelse">Beskrivelse:</label>
+            <textarea id="beskrivelse" name="beskrivelse" rows="4"></textarea><br>
+
+            <button id="submitt" onclick="myFunction()">Legg til vare</button>
+        </div>
+        <br><br><br>
+        <!-- Skjema for Legg til Meny -->
+        <div class="content-box">
+            <h2 class="heading" style="font-size: 5rem;">Legg til Meny</h2>
+            <p>Bruk dette skjemaet for å legge til en ukens meny.</p>
+            <label for="dag">Dag:</label>
+            <input type="text" id="dag" name="dag"><br>
+
+            <label for="hovedrett">Hovedrett:</label>
+            <input type="text" id="hovedrett" name="hovedrett"><br>
+
+            <label for="dessert">Dessert:</label>
+            <input type="text" id="dessert" name="dessert"><br>
+
+            <label for="drikke">Drikke:</label>
+            <input type="text" id="drikke" name="drikke"><br>
+
+            <label for="pris_meny">Pris:</label>
+            <input type="number" id="pris_meny" name="pris_meny"><br>
+
+            <button id="submittMeny" onclick="myFunctionMeny()">Legg til meny</button>
+        </div>
+    </section>
+
+    <script type="module" src="../js/index.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxILJVkgKXOVkL5axzSViHJ_1ee0AOo5M",
+            authDomain: "nettside-kantine.firebaseapp.com",
+            projectId: "nettside-kantine",
+            storageBucket: "nettside-kantine.firebasestorage.app",
+            messagingSenderId: "726592314686",
+            appId: "1:726592314686:web:6a93b0d24319cdd6b8206f",
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        // Funksjonalitet for å legge til vare
+        window.myFunction = async function () {
+            try {
+                let varenavn = document.getElementById("varenavn").value;
+                let pris = document.getElementById("pris").value;
+                let beskrivelse = document.getElementById("beskrivelse").value;
+
+                // Validering av input
+                if (!varenavn || !pris || !beskrivelse) {
+                    alert("Vennligst fyll ut alle feltene!");
+                    return;
+                }
+
+                // Legg til dokument i Firestore
+                const docRef = await addDoc(collection(db, "varer"), {
+                    varenavn: varenavn,
+                    pris: parseFloat(pris), // Sørg for at pris er et tall
+                    beskrivelse: beskrivelse
+                });
+                console.log("Document written with ID: ", docRef.id);
+                alert("Varen er lagt til!");
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("Det oppsto en feil ved lagring av varen.");
+            }
+        };
+
+        // Funksjonalitet for å legge til meny
+        window.myFunctionMeny = async function () {
+            try {
+                console.log("test")
+                let dag = document.getElementById("dag").value;
+                let hovedrett = document.getElementById("hovedrett").value;
+                let dessert = document.getElementById("dessert").value;
+                let drikke = document.getElementById("drikke").value;
+                let prisMeny = document.getElementById("pris_meny").value;
+
+                // Validering av input
+                if (!dag || !hovedrett || !dessert || !drikke || !prisMeny) {
+                    alert("Vennligst fyll ut alle feltene!");
+                    return;
+                }
+
+                // Legg til dokument i Firestore
+                const docRef = await addDoc(collection(db, "meny"), {
+                    dag: dag,
+                    hovedrett: hovedrett,
+                    dessert: dessert,
+                    drikke: drikke,
+                    pris: parseFloat(prisMeny)
+                });
+                console.log("Meny lagt til med ID: ", docRef.id);
+                alert("Menyen er lagt til!");
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("Det oppsto en feil ved lagring av menyen.");
+            }
+        };
+
+        // Dark mode toggle
+        const darkModeIcon = document.getElementById('darkMode-icon');
+        darkModeIcon.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+
+    </script>
+</body>
+
+</html>

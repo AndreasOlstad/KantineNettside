@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kantine - Velkommen</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="header">
+    <a href="#" class="logo">Kantine</a>
+    <nav class="navbar">
+      <a href="#home" class="active">Hjem</a>
+      <a href="#omoss">Om oss</a>
+      <a href="#ukensmeny">Meny & Varer</a>
+      <a href="#logginn">Logg inn</a>
+    </nav>
+
+    <div class="bx bx-moon" id="darkMode-icon"></div>
+    <div class="bx bx-menu" id="menu-icon"></div>
+  </header>
+
+  <!--Velkommen-->
+  <section class="home" id="home">
+    <div class="home-content">
+      <h3>Velkommen til vår</h3>
+      <h1>Kantine</h1>
+      <p>
+        Vi tilbyr sunne og smakfulle måltider laget med omtanke for våre gjester.
+      </p>
+
+      <div class="social-media">
+        <a href="https://afk.no/royken-vgs/" target="_blank"><i class="bx bx-link"></i></a>
+      </div>
+
+      <a href="#logginn" class="btn">Logg inn</a>
+    </div>
+
+    <div class="proffesion-container">
+      <div class="proffesion-box">
+        <div class="proffesion" style="--i: 0">
+          <i class="bx bx-food-menu"></i>
+          <h3>Friske Salater</h3>
+        </div>
+        <div class="proffesion" style="--i: 1">
+          <i class="bx bx-cake"></i>
+          <h3>Småretter</h3>
+        </div>
+        <div class="proffesion" style="--i: 2">
+          <i class="bx bx-pizza"></i>
+          <h3>Pizza og Pasta</h3>
+        </div>
+        <div class="proffesion" style="--i: 3">
+          <i class="bx bx-drink"></i>
+          <h3>Legge til varer</h3>
+        </div>
+
+        <div class="circle"></div>
+      </div>
+
+      <div class="overlay"></div>
+    </div>
+
+    <div class="home-img"></div>
+  </section>
+
+  <!--Om oss-->
+  <section class="about" id="omoss">
+    <div class="about-img">
+      <img src="./images/kantine.jpg" />
+    </div>
+
+    <div class="about-content">
+      <h2 class="heading">Om Kantinen</h2>
+      <h3>Vår Misjon</h3>
+      <p>
+        Vi i Røyken VGs kantine har som mål å tilby sunne og smakfulle måltider som både gir energi og glede til våre
+        elever. Vi bruker ferske råvarer og lager mat fra bunnen av. Vår meny oppdateres jevnlig for å tilby variasjon
+        og tilpasse oss sesongens råvarer.
+      </p>
+      <p>
+        Vår kantine er et sosialt møtested hvor elever kan nyte et godt måltid, slappe av, og ha en pause fra
+        skolearbeidet.
+      </p>
+    </div>
+  </section>
+
+  <!-- Meny og varer -->
+  <section class="medie" id="ukensmeny">
+    <h2 class="heading" style="text-align: center">Meny & Varer</h2>
+
+    <div class="medie-container">
+      <div class="medie-box">
+        <i class="bx bx-food-menu"></i>
+        <h3>Ukens Meny</h3>
+        <p>
+          Vi tilbyr en variert ukemeny med alt fra salater og småretter til varme måltider som pasta og pizza. All maten
+          er laget med ferske, sesongbaserte ingredienser.
+        </p>
+        <a href="./html/ukensmeny.html" class="btn">Se hva vi tilbyr denne uken</a>
+      </div>
+      <div class="medie-box">
+        <i class="bx bx-cake"></i>
+        <h3>Småretter & Snacks</h3>
+        <p>
+          Nyt våre småretter og snacks, inkludert wraps, sandwiches og hjemmelagde bakverk. Perfekt for en liten pause
+          på skolen.
+        </p>
+        <a href="./html/smaretter.html" class="btn">Se småretter</a>
+      </div>
+      <div class="medie-box">
+        <i class="bx bx-drink"></i>
+        <h3>Legge til varer</h3>
+        <p>
+          Her kan du legge til varer som drikkevarer, snacks og andre produkter for å oppdatere kantinens utvalg.
+        </p>
+        <a href="./html/leggtilvarer.html" class="btn btnLegg">Legg til varer</a>
+        <!-- <a href="" class="btn btnLegg">Legg til varer</a> -->
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!--Logg inn-->
+  <section class="kontakt" id="logginn">
+    <h2 class="heading" style="text-align: center;">Logg inn</h2>
+
+    <form action="#">
+      <div class="input-box">
+        <input type="text" placeholder="Brukernavn" required />
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Passord" required />
+      </div>
+      <div class="input-box">
+        <input type="submit" value="Logg inn" class="btn" />
+      </div>
+    </form>
+  </section>
+
+
+  <script type="module" src="./js/index.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+</body>
+
+</html>
